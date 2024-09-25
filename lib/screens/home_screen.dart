@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:todolati2024/models/task_model.dart';
 import 'package:todolati2024/providers/dark_mode_provider.dart';
+import 'package:todolati2024/providers/localization_provider.dart';
 import 'package:todolati2024/providers/tasks_provider.dart';
 import 'package:todolati2024/widgets/clickables/drawer_tile.dart';
 import 'package:todolati2024/widgets/dialogs/add_task_dialog.dart';
 import 'package:todolati2024/widgets/cards/task_card.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -38,8 +41,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       DrawerTile(
                           text: darkModeConsumer.isDark
-                              ? "Light Mode"
-                              : "Dark Mode",
+                              ? AppLocalizations.of(context)!.lightmode
+                              : AppLocalizations.of(context)!.darkmode,
                           onTab: () {
                             Provider.of<DarkModeProvider>(context,
                                     listen: false)
@@ -48,6 +51,30 @@ class _HomeScreenState extends State<HomeScreen> {
                           icon: darkModeConsumer.isDark
                               ? Icons.light_mode
                               : Icons.dark_mode),
+                      DrawerTile(
+                          text: AppLocalizations.of(context)!.arabic,
+                          onTab: () {
+                            Provider.of<LocalizationProvider>(context,
+                                    listen: false)
+                                .storeLanguage("ar");
+                          },
+                          icon: Icons.language),
+                      DrawerTile(
+                          text: AppLocalizations.of(context)!.english,
+                          onTab: () {
+                            Provider.of<LocalizationProvider>(context,
+                                    listen: false)
+                                .storeLanguage("en");
+                          },
+                          icon: Icons.language),
+                      DrawerTile(
+                          text: AppLocalizations.of(context)!.spanish,
+                          onTab: () {
+                            Provider.of<LocalizationProvider>(context,
+                                    listen: false)
+                                .storeLanguage("es");
+                          },
+                          icon: Icons.language),
                     ],
                   ),
                 ),
@@ -79,22 +106,23 @@ class _HomeScreenState extends State<HomeScreen> {
                       });
                 }),
             appBar: AppBar(
-              title: const Text("TODO"),
+              title: const Text("TASKY"),
             ),
             body: DefaultTabController(
               length: 2,
               child: Column(
                 children: [
-                  const TabBar(
+                  TabBar(
+                      labelStyle: GoogleFonts.cairo(),
                       isScrollable: false,
                       unselectedLabelColor: Colors.grey,
                       indicatorColor: Colors.blue,
                       tabs: [
                         Tab(
-                          text: "Waiting",
+                          text: AppLocalizations.of(context)!.waiting,
                         ),
                         Tab(
-                          text: "Completed",
+                          text: AppLocalizations.of(context)!.completed,
                         )
                       ]),
                   Expanded(
